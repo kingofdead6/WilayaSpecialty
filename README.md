@@ -18,7 +18,13 @@ npm run build:single # one self-contained index.html in dist-single/ (images and
 
 ```
 src/
-  data.js                 all copy from the charter (edit text here)
+  router.jsx              tiny router: clean paths (/faq) over http, #/faq when opened from disk
+  data.js                 all copy from the charter, plus FAQ and policies text (edit text here)
+  pages/
+    Home.jsx              the one-page presentation (all sections below)
+    Faq.jsx               searchable FAQ accordion
+    Policies.jsx          terms, privacy, cookies, IP, brand rules, with a live table of contents
+    NotFound.jsx          404 page for any unknown route
   index.css               Tailwind theme tokens: colours and fonts
   assets/                 logo, wordmark, map and photos extracted from the charter PDF
   components/
@@ -32,8 +38,13 @@ src/
     Plait.jsx             interactive plait (9 / 11 / 13 leaves) + techniques
     Symbols.jsx           the 25 symbols (24 named in the charter)
     Identity.jsx          logo versions, protection zone, Brown Herbal, typefaces
-    Footer.jsx            chamber contact details
+    Footer.jsx            woven hem, call to action, link columns, contact details
+    ScrollTop.jsx         back-to-top button with a reading-progress ring
+    PageHeader.jsx        header band shared by the secondary pages
 ```
+
+Unknown URLs fall back to `index.html` so the 404 page can render: `vercel.json` covers Vercel and
+`public/_redirects` covers Netlify. Other hosts need the equivalent SPA fallback rule.
 
 ## Brand notes
 

@@ -58,10 +58,17 @@ h1, h2, h3 {
   unicode-bidi: isolate;
 }
 
-:focus-visible {
-  outline: 2px solid var(--color-straw-deep);
-  outline-offset: 3px;
-  border-radius: 4px;
+/* in the base layer so utilities such as outline-none can override it;
+   the outline follows each element's own radius */
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-straw-deep);
+    outline-offset: 3px;
+  }
+}
+
+input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
 }
 
 ::selection {
@@ -74,6 +81,63 @@ h1, h2, h3 {
   background-image:
     repeating-linear-gradient(115deg, rgb(71 46 30 / 0.025) 0 1px, transparent 1px 7px),
     repeating-linear-gradient(25deg, rgb(71 46 30 / 0.02) 0 1px, transparent 1px 11px);
+}
+
+/* ── page scrollbar: a twisted doum cord running in a paper groove ──
+   Chromium ignores ::-webkit-scrollbar once scrollbar-color is set, so the standard
+   properties go only to browsers without the pseudo-elements (Firefox). */
+::-webkit-scrollbar {
+  width: 14px;
+  height: 14px;
+}
+::-webkit-scrollbar-track {
+  background:
+    linear-gradient(90deg, transparent 6px, rgb(71 46 30 / 0.12) 6px 8px, transparent 8px),
+    #efe4d3;
+  border-inline-start: 1px solid rgb(71 46 30 / 0.08);
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, rgb(255 246 230 / 0.22), transparent 55%, rgb(0 0 0 / 0.18)) padding-box,
+    repeating-linear-gradient(-52deg, var(--color-bark) 0 5px, #6a4630 5px 8px, var(--color-bark) 8px 11px) padding-box;
+  min-height: 56px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background:
+    linear-gradient(90deg, rgb(255 246 230 / 0.3), transparent 55%, rgb(0 0 0 / 0.15)) padding-box,
+    repeating-linear-gradient(-52deg, var(--color-straw-deep) 0 5px, var(--color-bark) 5px 8px, var(--color-straw-deep) 8px 11px) padding-box;
+}
+::-webkit-scrollbar-thumb:active {
+  background: var(--color-bark-deep) padding-box;
+}
+::-webkit-scrollbar-corner {
+  background: #efe4d3;
+}
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: var(--color-bark) #efe4d3;
+  }
+}
+
+/* reading-progress strip under the nav: long straw segments, short shadow segments */
+.weave-progress {
+  background: repeating-linear-gradient(
+    to left,
+    var(--color-straw) 0 22px,
+    transparent 22px 25px,
+    var(--color-straw-deep) 25px 35px,
+    transparent 35px 38px
+  );
+}
+
+/* footer hem: two rows of over-under strips, offset like a plain weave */
+.weave-band {
+  background:
+    repeating-linear-gradient(to left, var(--color-straw) 0 22px, var(--color-bark-deep) 22px 25px, var(--color-straw-deep) 25px 35px, var(--color-bark-deep) 35px 38px) top / 100% calc(50% - 1px) no-repeat,
+    repeating-linear-gradient(to left, var(--color-straw-deep) 0 10px, var(--color-bark-deep) 10px 13px, var(--color-straw) 13px 35px, var(--color-bark-deep) 35px 38px) bottom / 100% calc(50% - 1px) no-repeat,
+    var(--color-bark-deep);
 }
 
 @keyframes pulse-ring {

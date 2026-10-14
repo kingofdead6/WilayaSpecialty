@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* Layout concept: alternating bands of dried-doum paper and Brown Herbal bark, held together
+   by a woven-strip motif; text runs right-to-left on the start edge, images sit on the end edge. */
+@theme {
+  --color-bark: #472e1e;        /* Brown Herbal, the charter's official colour (CMYK 47/66/75/70) */
+  --color-bark-deep: #2e1d12;
+  --color-paper: #f5ece0;       /* cover paper of the charter */
+  --color-straw: #e6d5b3;       /* dried doum leaf, "white leaning to yellow" */
+  --color-straw-deep: #c4a46f;  /* fibre shadow */
+  --color-leaf: #7b886a;        /* fresh doum, green leaning to silver */
+  --color-rust: #8c3b2a;        /* the charter's sub-heading colour, used sparingly */
+
+  --font-display: "Reem Kufi", "Almarai", "Segoe UI", Tahoma, sans-serif;
+  --font-body: "Almarai", "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-naskh: "Noto Naskh Arabic", "Traditional Arabic", "Times New Roman", serif;
+  --font-latin: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-bark);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  text-wrap: balance;
+  line-height: 1.25;
+}
+
+.gutter {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+@media (min-width: 768px) {
+  .gutter {
+    padding-left: max(40px, env(safe-area-inset-left, 0px));
+    padding-right: max(40px, env(safe-area-inset-right, 0px));
+  }
+}
+
+.latin {
+  font-family: var(--font-latin);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-straw-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--color-straw);
+  color: var(--color-bark-deep);
+}
+
+/* fine fibre texture for paper bands */
+.fibre {
+  background-image:
+    repeating-linear-gradient(115deg, rgb(71 46 30 / 0.025) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(25deg, rgb(71 46 30 / 0.02) 0 1px, transparent 1px 11px);
+}
+
+@keyframes pulse-ring {
+  0% { transform: translate(-50%, -50%) scale(0.6); opacity: 0.9; }
+  100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+}
+.pulse-ring {
+  animation: pulse-ring 2.2s cubic-bezier(.2,.7,.3,1) infinite;
+}
+
+@keyframes slow-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .pulse-ring { animation: none; opacity: 0.4; }
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
